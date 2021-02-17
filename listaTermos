@@ -1,0 +1,21 @@
+from urllib.request import urlopen, Request
+from bs4 import BeautifulSoup
+
+import nltk
+nltk.download('stopwords')
+stopList = nltk.corpus.stopwords.words('portuguese')
+
+target = 'https://www.gazetadopovo.com.br'
+req = Request(url=target)
+html = urlopen(req).read()
+soup = BeautifulSoup(html, 'html.parser')
+paragrafos = soup.get_text()
+
+listaPalavras = paragrafos.split(' ')
+listaTermos = []
+
+for palavra in listaPalavras:
+    if palavra not in stopList:
+        listaTermos.append(palavra)
+
+print(listaTermos)
